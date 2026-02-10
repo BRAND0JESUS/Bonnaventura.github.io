@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Tienda online en Ecuador. Encuentra zapatos, electrónicos y ropa de calidad. Envíos a todo el país. Consulta por WhatsApp.">
+    <title>Bonnaventura Tienda - Zapatos, Electrónicos y Ropa en Ecuador</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container nav_container">
+            <a href="#" class="logo">
+                <img src="LOGO.svg" alt="Bonnaventura Logo" class="site-logo">
+            </a>
+
+            <nav class="nav_menu" id="nav-menu">
+                <div class="nav_links">
+                    <a href="#inicio" class="nav-link">Inicio</a>
+                    <a href="#categorias" class="nav-link">Categorías</a>
+                    <a href="#productos" class="nav-link">Productos</a>
+                    <a href="#contacto" class="nav-link">Contacto</a>
+                </div>
+            </nav>
+
+            <div class="nav_icons">
+                <a href="#" class="cart-icon">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                    <span>0</span>
+                </a>
+                <div class="hamburger" id="hamburger">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <img src="LOGO.svg" alt="Bonnaventura Logo" class="hero-logo-img">
+            <h1>BONNAVENTURA TIENDA</h1>
+            <h2>"Qualità totale"</h2>
+            <p>Tu tienda de confianza en Ecuador. Descubre nuestra colección exclusiva.</p>
+            <a href="#productos" class="btn btn-primary">Explorar Productos</a>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categorias" class="container">
+        <h2 class="section-title">Nuestras Categorías</h2>
+        <div class="categories-grid">
+            <div class="category-card" onclick="filterAndScroll('zapatos')">
+                <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-1.2.1&auto=format&fit=crop&w=1300&q=80"
+                    alt="Zapatos" class="category-img">
+                <div class="category-overlay">
+                    <i class="fa-solid fa-shoe-prints category-icon"></i>
+                    <h3 class="category-title">Zapatos</h3>
+                    <div class="category-btn">Ver productos <i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+            </div>
+            <div class="category-card" onclick="filterAndScroll('electronicos')">
+                <img src="https://images.unsplash.com/photo-1468495244123-6c6ef332ad22?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"
+                    alt="Electrónicos" class="category-img">
+                <div class="category-overlay">
+                    <i class="fa-solid fa-laptop category-icon"></i>
+                    <h3 class="category-title">Electrónicos</h3>
+                    <div class="category-btn">Ver productos <i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+            </div>
+            <div class="category-card" onclick="filterAndScroll('ropa')">
+                <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"
+                    alt="Ropa" class="category-img">
+                <div class="category-overlay">
+                    <i class="fa-solid fa-shirt category-icon"></i>
+                    <h3 class="category-title">Ropa</h3>
+                    <div class="category-btn">Ver productos <i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="productos" class="products-section">
+        <div class="container">
+            <h2 class="section-title">Nuestros Productos</h2>
+
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterProducts('all')">Todos</button>
+                <button class="filter-btn" onclick="filterProducts('zapatos')">Zapatos</button>
+                <button class="filter-btn" onclick="filterProducts('electronicos')">Electrónicos</button>
+                <button class="filter-btn" onclick="filterProducts('ropa')">Ropa</button>
+            </div>
+
+            <div id="products-grid" class="products-grid">
+                <!-- Products will be generated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="container">
+        <h2 class="section-title">¿Por Qué Elegirnos?</h2>
+        <div class="features-grid">
+            <div class="feature-box">
+                <i class="fa-solid fa-truck-fast feature-icon"></i>
+                <h3 class="feature-title">Entrega Nacional</h3>
+                <p class="feature-text">Enviamos a todo Ecuador de manera rápida y segura.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fa-solid fa-medal feature-icon"></i>
+                <h3 class="feature-title">Productos de Calidad</h3>
+                <p class="feature-text">Garantía total en todos nuestros productos seleccionados.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fa-brands fa-whatsapp feature-icon"></i>
+                <h3 class="feature-title">Atención Personalizada</h3>
+                <p class="feature-text">Asesoramiento directo vía WhatsApp para tus compras.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fa-solid fa-tags feature-icon"></i>
+                <h3 class="feature-title">Precios Competitivos</h3>
+                <p class="feature-text">Las mejores ofertas del mercado pensando en tu economía.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="container">
+        <h2 class="section-title">Contáctanos</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3 class="section-title" style="font-size: 1.8rem; margin-bottom: 30px;">Información</h3>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                    <a href="https://wa.me/593978997619" target="_blank">+593 98 718 7445</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fa-regular fa-envelope"></i></div>
+                    <a href="mailto:info@bonnaventura.com">info@bonnaventura.com</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fa-regular fa-clock"></i></div>
+                    <span>Lun - Sáb: 9:00 AM - 6:00 PM</span>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <span>Ecuador - Envíos a todo el país</span>
+                </div>
+            </div>
+            <div class="contact-cta">
+                <div class="contact-overlay"></div>
+                <div class="cta-button-container">
+                    <a href="https://wa.me/593978997619?text=Hola!%20Me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos."
+                        target="_blank" class="btn-large-whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Chatea con Nosotros
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">
+                        <img src="LOGO.svg" alt="Bonnaventura Logo" class="footer-logo-img">
+                    </div>
+                    <p class="footer-desc">Tu tienda de confianza en Ecuador. Comprometidos con la calidad total y el
+                        servicio excepcional.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#productos">Productos</a></li>
+                        <li><a href="#categorias">Categorías</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Síguenos</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@bonnaventura.shop?_t=ZM-8tJGkpkyVl8&_r=1" target="_blank"
+                            class="social-link"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="https://wa.me/593978997619" class="social-link"><i
+                                class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2024 Bonnaventura Tienda. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div class="modal-image">
+                <!-- Content dynamically injected via JS -->
+            </div>
+            <div class="modal-details">
+                <div id="modal-category" class="modal-category">CATEGORIA</div>
+                <h2 id="modal-title" class="modal-title">Nombre del Producto</h2>
+                <div id="modal-price" class="modal-price">$00.00</div>
+                <p id="modal-desc" class="modal-description">Descripción del producto...</p>
+
+                <h4 class="specs-title">Especificaciones</h4>
+                <p class="specs-list">Información completa próximamente disponible.</p>
+
+                <a id="modal-whatsapp" href="#" target="_blank" class="btn-large-whatsapp"
+                    style="width: 100%; justify-content: center; margin-top: 20px;">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    Consultar Disponibilidad
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>
