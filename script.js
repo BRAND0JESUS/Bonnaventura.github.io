@@ -158,6 +158,59 @@ const products = [
             "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
             "https://images.unsplash.com/photo-1496747611176-843222e1e57c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
         ]
+    },
+    // Otros
+    {
+        id: 13,
+        name: "Juguete de Madera",
+        category: "otros",
+        price: 24.99,
+        soldOut: false,
+        description: "Diversión clásica y sostenible",
+        fullDescription: "Juguete artesanal hecho de madera sostenible certificada. Pinturas no tóxicas y bordes redondeados para la seguridad de los más pequeños. Fomenta la creatividad y la motricidad fina.",
+        images: [
+            "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1560869713-7d0a29430803?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        ]
+    },
+    {
+        id: 14,
+        name: "Gafas de Sol Retro",
+        category: "otros",
+        price: 39.50,
+        soldOut: false,
+        description: "Estilo vintage con protección UV",
+        fullDescription: "Gafas de sol con diseño inspirado en los años 70. Lentes polarizadas con protección UV400 completa. Marcos ligeros y duraderos para un uso cómodo durante todo el día.",
+        images: [
+            "https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1577803645773-f96470509666?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        ]
+    },
+    {
+        id: 15,
+        name: "Jarrón de Cerámica",
+        category: "otros",
+        price: 42.00,
+        soldOut: false,
+        description: "Minimalismo para tu hogar",
+        fullDescription: "Jarrón de cerámica hecho a mano con acabado mate texturizado. Su diseño minimalista y elegante complementa cualquier decoración moderna. Perfecto para flores frescas o secas.",
+        images: [
+            "https://images.unsplash.com/photo-1581783342308-f792ca11df53?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1612196808214-b7e239e5f6b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        ]
+    },
+    {
+        id: 16,
+        name: "Cuaderno Premium",
+        category: "otros",
+        price: 18.00,
+        soldOut: false,
+        description: "Para tus mejores ideas",
+        fullDescription: "Cuaderno de tapa dura con papel de alto gramaje que no traspasa la tinta. Encuadernación cosida que permite abrirlo 180 grados. Ideal para escritura, dibujo o bullet journaling.",
+        images: [
+            "https://images.unsplash.com/photo-1544816155-12df9643f363?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1531346878377-a5be20888e57?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        ]
     }
 ];
 
@@ -185,69 +238,74 @@ function renderProducts(category) {
     filteredProducts.forEach(product => {
         const card = document.createElement('div');
         card.classList.add('product-card');
-        if (product.soldOut) card.classList.add('sold-out');
-
-        // WhatsApp Link Generation
-        const message = `Hola! Estoy interesado en el ${product.name} por $${product.price}. ¿Está disponible? Me gustaría más información.`;
-        const whatsappUrl = `https://wa.me/593978997619?text=${encodeURIComponent(message)}`;
-
-        const soldOutBadge = product.soldOut ? '<span class="sold-out-badge">Agotado</span>' : '';
-        const actionButtons = product.soldOut
-            ? `<button class="btn-outline" onclick="openModal(${product.id})">Ver Detalles</button>
-               <button class="btn-whatsapp disabled" disabled>Agotado</button>`
-            : `<button class="btn-outline" onclick="openModal(${product.id})">Ver Detalles</button>
-               <a href="${whatsappUrl}" target="_blank" class="btn-whatsapp">
-                   <i class="fa-brands fa-whatsapp"></i> Consultar WhatsApp
-               </a>`;
+        if (product.soldOut) {
+            card.classList.add('sold-out');
+        }
 
         card.innerHTML = `
             <div class="product-image-container" onclick="openModal(${product.id})">
-                <span class="category-badge">${product.category}</span>
-                ${soldOutBadge}
                 <img src="${product.images[0]}" alt="${product.name}" class="product-img">
+                <span class="category-badge">${product.category}</span>
+                ${product.soldOut ? '<div class="sold-out-badge">Agotado</div>' : ''}
             </div>
             <div class="product-info">
                 <h3 class="product-name">${product.name}</h3>
                 <p class="product-desc">${product.description}</p>
-                <div class="product-price">$${product.price.toFixed(2)} USD</div>
+                <p class="product-price">$${product.price.toFixed(2)} USD</p>
                 <div class="product-actions">
-                    ${actionButtons}
+                    <button class="btn-outline" onclick="openModal(${product.id})">Ver Detalles</button>
+                    ${!product.soldOut
+                ? `<a href="https://wa.me/593978997619?text=${encodeURIComponent(`Hola! Estoy interesado en el ${product.name} por $${product.price}`)}" 
+                               class="btn-whatsapp" target="_blank">
+                               <i class="fa-brands fa-whatsapp"></i> Consultar
+                           </a>`
+                : `<button class="btn-whatsapp disabled" disabled>
+                               <i class="fa-solid fa-ban"></i> Agotado
+                           </button>`
+            }
                 </div>
             </div>
         `;
+
         grid.appendChild(card);
     });
 }
 
-
 /* Filter Functions */
-function filterProducts(category) {
-    // Update active button state
+function filterProducts(category, event) {
     const buttons = document.querySelectorAll('.filter-btn');
     buttons.forEach(btn => btn.classList.remove('active'));
 
-    // Find the button that was clicked (approximate matching since onclick is inline)
-    event.target.classList.add('active');
+    if (event) {
+        event.target.classList.add('active');
+    } else {
+        // Fallback: Activate button based on category text
+        buttons.forEach(btn => {
+            const btnText = btn.textContent.toLowerCase().trim();
+            // Handle special cases or match directly
+            if (btnText === category ||
+                (category === 'all' && btnText === 'todos') ||
+                (category === 'electronicos' && btnText === 'electrónicos')) {
+                btn.classList.add('active');
+            }
+        });
+    }
 
     renderProducts(category);
 }
 
 function filterAndScroll(category) {
-    // Scroll to products section
-    document.getElementById('productos').scrollIntoView({ behavior: 'smooth' });
+    // 1. Filter products
+    filterProducts(category);
 
-    // Update active button visually
-    const buttons = document.querySelectorAll('.filter-btn');
-    buttons.forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.innerText.toLowerCase() === category || (category === 'electronicos' && btn.innerText.includes('Electrónicos'))) {
-            btn.classList.add('active');
-        }
-    });
-
-    // Filter
-    renderProducts(category);
+    // 2. Scroll to products section
+    const productsSection = document.getElementById('productos');
+    if (productsSection) {
+        productsSection.scrollIntoView({ behavior: 'smooth' });
+    }
 }
+
+
 
 /* Modal Functions */
 const modal = document.getElementById('product-modal');
@@ -384,33 +442,72 @@ window.onclick = function (event) {
     }
 }
 
-/* Mobile Menu */
+/* Mobile Menu - IMPROVED VERSION */
 function setupMobileMenu() {
     console.log('Mobile menu setup initiated');
+
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
+    const navLinks = document.querySelectorAll('.nav_links a');
 
+    // Check if elements exist
     if (!hamburger) {
-        console.error('Hamburger element not found!');
+        console.error('Hamburger button not found! Make sure your HTML has an element with id="hamburger"');
         return;
     }
 
-    hamburger.addEventListener('click', () => {
-        console.log('Hamburger clicked');
+    if (!navMenu) {
+        console.error('Navigation menu not found! Make sure your HTML has an element with id="nav-menu"');
+        return;
+    }
+
+    console.log('Hamburger and menu elements found successfully');
+
+    // Toggle menu when hamburger is clicked
+    hamburger.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const isActive = navMenu.classList.contains('active');
+        console.log('Hamburger clicked - Current state:', isActive ? 'active' : 'inactive');
+
         navMenu.classList.toggle('active');
-        console.log('Menu active state:', navMenu.classList.contains('active'));
+
+        // Optional: Add animation to hamburger icon
+        hamburger.classList.toggle('open');
+
+        console.log('New state:', navMenu.classList.contains('active') ? 'active' : 'inactive');
     });
 
+    // Close menu when a navigation link is clicked
     navLinks.forEach(link => {
-        link.addEventListener('click', () => {
+        link.addEventListener('click', function () {
+            console.log('Navigation link clicked - closing menu');
             navMenu.classList.remove('active');
+            hamburger.classList.remove('open');
         });
     });
-}
 
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    renderProducts('all');
-    setupMobileMenu();
-});
+    // Close menu when clicking outside
+    document.addEventListener('click', function (e) {
+        // Only close if menu is open and click is outside menu and hamburger
+        if (navMenu.classList.contains('active') &&
+            !navMenu.contains(e.target) &&
+            !hamburger.contains(e.target)) {
+            console.log('Clicked outside menu - closing');
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('open');
+        }
+    });
+
+    // Close menu when window is resized to desktop size
+    window.addEventListener('resize', function () {
+        if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+            console.log('Window resized to desktop - closing mobile menu');
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('open');
+        }
+    });
+
+    console.log('Mobile menu setup complete');
+}

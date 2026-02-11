@@ -29,13 +29,14 @@
                 <img src="LOGO.svg" alt="Bonnaventura Logo" class="site-logo">
             </a>
 
+            <!-- FIXED: Proper mobile menu structure -->
             <nav class="nav_menu" id="nav-menu">
-                <div class="nav_links">
-                    <a href="#inicio" class="nav-link">Inicio</a>
-                    <a href="#categorias" class="nav-link">Categorías</a>
-                    <a href="#productos" class="nav-link">Productos</a>
-                    <a href="#contacto" class="nav-link">Contacto</a>
-                </div>
+                <ul class="nav_links">
+                    <li><a href="#inicio" class="nav-link">Inicio</a></li>
+                    <li><a href="#categorias" class="nav-link">Categorías</a></li>
+                    <li><a href="#productos" class="nav-link">Productos</a></li>
+                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                </ul>
             </nav>
 
             <div class="nav_icons">
@@ -92,6 +93,15 @@
                     <div class="category-btn">Ver productos <i class="fa-solid fa-arrow-right"></i></div>
                 </div>
             </div>
+            <div class="category-card" onclick="filterAndScroll('otros')">
+                <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"
+                    alt="Otros" class="category-img">
+                <div class="category-overlay">
+                    <i class="fa-solid fa-gift category-icon"></i>
+                    <h3 class="category-title">Otros</h3>
+                    <div class="category-btn">Ver productos <i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -101,10 +111,11 @@
             <h2 class="section-title">Nuestros Productos</h2>
 
             <div class="filters">
-                <button class="filter-btn active" onclick="filterProducts('all')">Todos</button>
-                <button class="filter-btn" onclick="filterProducts('zapatos')">Zapatos</button>
-                <button class="filter-btn" onclick="filterProducts('electronicos')">Electrónicos</button>
-                <button class="filter-btn" onclick="filterProducts('ropa')">Ropa</button>
+                <button class="filter-btn active" onclick="filterProducts('all', event)">Todos</button>
+                <button class="filter-btn" onclick="filterProducts('zapatos', event)">Zapatos</button>
+                <button class="filter-btn" onclick="filterProducts('electronicos', event)">Electrónicos</button>
+                <button class="filter-btn" onclick="filterProducts('ropa', event)">Ropa</button>
+                <button class="filter-btn" onclick="filterProducts('otros', event)">Otros</button>
             </div>
 
             <div id="products-grid" class="products-grid">
@@ -209,7 +220,7 @@
                 </div>
             </div>
             <div class="copyright">
-                &copy; 2024 Bonnaventura Tienda. Todos los derechos reservados.
+                &copy; 2025 Bonnaventura Tienda. Todos los derechos reservados.
             </div>
         </div>
     </footer>
