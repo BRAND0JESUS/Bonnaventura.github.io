@@ -241,11 +241,42 @@
                 <h4 class="specs-title">Especificaciones</h4>
                 <p class="specs-list">Información completa próximamente disponible.</p>
 
-                <a id="modal-whatsapp" href="#" target="_blank" class="btn-large-whatsapp"
-                    style="width: 100%; justify-content: center; margin-top: 20px;">
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Consultar Disponibilidad
-                </a>
+                <div class="modal-actions">
+                    <button id="modal-add-to-cart" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">
+                        <i class="fa-solid fa-cart-shopping"></i> Añadir al Carrito
+                    </button>
+                    <a id="modal-whatsapp" href="#" target="_blank" class="btn-large-whatsapp"
+                        style="width: 100%; justify-content: center;">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Consultar Disponibilidad
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content cart-content">
+            <span class="modal-close" onclick="closeCartModal()">&times;</span>
+            <h2 class="section-title" style="margin-bottom: 20px;">Tu Carrito</h2>
+
+            <div id="cart-items" class="cart-items-container">
+                <!-- Cart items injected via JS -->
+                <p class="empty-cart-msg">Tu carrito está vacío.</p>
+            </div>
+
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <h3>Total: <span id="cart-total-price">$0.00</span></h3>
+                </div>
+                <button onclick="checkoutWhatsApp()" class="btn-large-whatsapp"
+                    style="width: 100%; justify-content: center;">
+                    <i class="fa-brands fa-whatsapp"></i> Realizar Pedido
+                </button>
+                <button onclick="clearCart()" class="btn-outline" style="width: 100%; margin-top: 10px;">
+                    Vaciar Carrito
+                </button>
             </div>
         </div>
     </div>

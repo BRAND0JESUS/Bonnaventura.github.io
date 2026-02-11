@@ -978,14 +978,159 @@ footer {
     padding-bottom: 5px;
 }
 
+/* Cart Modal Styles */
+.cart-content {
+    max-width: 500px !important;
+    /* Narrower for cart */
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-items-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 60vh;
+    margin-bottom: 20px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    gap: 15px;
+}
+
+.cart-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.cart-item-details {
+    flex-grow: 1;
+}
+
+.cart-item-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+.cart-item-price {
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.cart-item-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-qty {
+    background: #f0f0f0;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-remove {
+    color: red;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-left: 10px;
+}
+
+.cart-footer {
+    border-top: 2px solid #f0f0f0;
+    padding-top: 20px;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
 .modal-thumbnail {
     width: 60px;
     height: 60px;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
     border: 2px solid transparent;
-    transition: var(--transition);
+    /* Restore border for active state */
+    opacity: 0.6;
+    transition: opacity 0.3s, border-color 0.3s;
+}
+
+/* Button Animation */
+.success-animation {
+    background-color: #2ecc71 !important;
+    /* Green */
+    border-color: #2ecc71 !important;
+    color: white !important;
+    transition: all 0.3s ease;
+    transform: scale(1.05);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+.shake-animation {
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+    border: 1px solid red;
+    /* Visual cue */
+}
+
+.danger-animation {
+    animation: pulse 0.5s ease;
 }
 
 .modal-thumbnail:hover {

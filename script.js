@@ -214,11 +214,7 @@ const products = [
     }
 ];
 
-/* DOM Loading */
-document.addEventListener('DOMContentLoaded', () => {
-    renderProducts('all');
-    setupMobileMenu();
-});
+
 
 /* Render Products Function */
 function renderProducts(category) {
@@ -323,6 +319,8 @@ function openModal(productId) {
     const modalImageContainer = document.querySelector('.modal-image');
     modalImageContainer.innerHTML = '';
 
+    currentProductId = product.id; // Track for Add to Cart
+
     // 1. Create Main Media Wrapper
     const mainMediaWrapper = document.createElement('div');
     mainMediaWrapper.className = 'modal-main-media-container';
@@ -405,7 +403,10 @@ function openModal(productId) {
     document.getElementById('modal-desc').innerText = product.fullDescription;
 
     const whatsappBtn = document.getElementById('modal-whatsapp');
+    const addToCartBtn = document.getElementById('modal-add-to-cart');
+
     if (product.soldOut) {
+        // Disable WhatsApp Button
         whatsappBtn.innerHTML = '<i class="fa-solid fa-ban"></i> Producto Agotado';
         whatsappBtn.classList.add('disabled');
         whatsappBtn.href = 'javascript:void(0)';
@@ -413,7 +414,17 @@ function openModal(productId) {
         whatsappBtn.style.backgroundColor = '#ccc';
         whatsappBtn.style.pointerEvents = 'none';
         whatsappBtn.style.cursor = 'not-allowed';
+
+        // Disable Add to Cart Button
+        if (addToCartBtn) {
+            addToCartBtn.innerHTML = '<i class="fa-solid fa-ban"></i> Agotado';
+            addToCartBtn.disabled = true;
+            addToCartBtn.style.backgroundColor = '#ccc';
+            addToCartBtn.style.transform = 'none'; // Prevent hover scale
+            addToCartBtn.style.cursor = 'not-allowed';
+        }
     } else {
+        // Enable WhatsApp Button
         const message = `Hola! Estoy interesado en el ${product.name} por $${product.price}. ¿Está disponible? Me gustaría más información.`;
         const whatsappUrl = `https://wa.me/593978997619?text=${encodeURIComponent(message)}`;
         whatsappBtn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Consultar Disponibilidad';
@@ -423,6 +434,15 @@ function openModal(productId) {
         whatsappBtn.style.backgroundColor = '';
         whatsappBtn.style.pointerEvents = '';
         whatsappBtn.style.cursor = 'pointer';
+
+        // Enable Add to Cart Button
+        if (addToCartBtn) {
+            addToCartBtn.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Añadir al Carrito';
+            addToCartBtn.disabled = false;
+            addToCartBtn.style.backgroundColor = '';
+            addToCartBtn.style.transform = '';
+            addToCartBtn.style.cursor = 'pointer';
+        }
     }
 
     // Show Modal
@@ -511,3 +531,226 @@ function setupMobileMenu() {
 
     console.log('Mobile menu setup complete');
 }
+
+/* Shopping Cart Logic */
+let cart = [];
+let currentProductId = null; // Track open product for Add to Cart
+
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    if (product.soldOut) {
+        alert("Lo sentimos, este producto está agotado.");
+        return;
+    }
+
+    const existingItem = cart.find(item => item.id === productId);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: product.images[0], // Use first image
+            quantity: 1
+        });
+    }
+
+    updateCartCount();
+
+    // UI Feedback (Animation instead of alert)
+    const btn = document.getElementById('modal-add-to-cart');
+    if (btn) {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Añadido';
+        btn.classList.add('success-animation');
+        btn.disabled = true;
+
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.classList.remove('success-animation');
+            btn.disabled = false;
+        }, 1500);
+    }
+}
+
+function updateCartCount() {
+    const count = cart.reduce((total, item) => total + item.quantity, 0);
+    const cartIconSpan = document.querySelector('.cart-icon span');
+    if (cartIconSpan) {
+        cartIconSpan.innerText = count;
+    }
+}
+
+function openCartModal() {
+    const cartModal = document.getElementById('cart-modal');
+    renderCartItems();
+    cartModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCartModal() {
+    document.getElementById('cart-modal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function renderCartItems() {
+    const container = document.getElementById('cart-items');
+    const totalElement = document.getElementById('cart-total-price');
+
+    container.innerHTML = '';
+    let total = 0;
+
+    if (cart.length === 0) {
+        container.innerHTML = '<p class="empty-cart-msg">Tu carrito está vacío.</p>';
+        totalElement.innerText = '$0.00';
+        return;
+    }
+
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        cartItem.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="cart-item-details">
+                <div class="cart-item-title">${item.name}</div>
+                <div class="cart-item-price">$${item.price.toFixed(2)} x ${item.quantity}</div>
+            </div>
+            <div class="cart-item-controls">
+                <button class="btn-qty" onclick="updateItemQuantity(${item.id}, -1)">-</button>
+                <span>${item.quantity}</span>
+                <button class="btn-qty" onclick="updateItemQuantity(${item.id}, 1)">+</button>
+                <button class="btn-remove" onclick="removeFromCart(${item.id})">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(cartItem);
+    });
+
+    totalElement.innerText = `$${total.toFixed(2)}`;
+}
+
+function updateItemQuantity(productId, change) {
+    const item = cart.find(i => i.id === productId);
+    if (!item) return;
+
+    item.quantity += change;
+
+    if (item.quantity <= 0) {
+        removeFromCart(productId);
+    } else {
+        renderCartItems();
+        updateCartCount();
+    }
+}
+
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    renderCartItems();
+    updateCartCount();
+}
+
+function clearCart() {
+    if (cart.length === 0) return;
+
+    // Animation for Clear Button
+    const btn = document.querySelector('button[onclick="clearCart()"]');
+    if (btn) {
+        const originalText = btn.innerText;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Vaciado';
+        btn.classList.add('success-animation'); // Reuse green animation or create new one?
+
+        // Disable temporarily
+        btn.disabled = true;
+
+        setTimeout(() => {
+            cart = [];
+            renderCartItems();
+            updateCartCount();
+
+            // Revert button
+            btn.innerHTML = originalText;
+            btn.classList.remove('success-animation');
+            btn.disabled = false;
+        }, 800);
+    } else {
+        // Fallback
+        cart = [];
+        renderCartItems();
+        updateCartCount();
+    }
+}
+
+function checkoutWhatsApp() {
+    if (cart.length === 0) {
+        // Visual feedback for empty cart instead of alert
+        const container = document.querySelector('.cart-content');
+        const emptyMsg = document.querySelector('.empty-cart-msg');
+
+        if (container) {
+            container.classList.add('shake-animation');
+            setTimeout(() => {
+                container.classList.remove('shake-animation');
+            }, 500);
+        }
+
+        // Also highlight/shake the empty message if visible
+        if (emptyMsg) {
+            emptyMsg.style.color = 'red';
+            setTimeout(() => emptyMsg.style.color = '', 1500);
+        }
+
+        return;
+    }
+
+    let message = "Hola! Me gustaría realizar el siguiente pedido:\n\n";
+    let total = 0;
+
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        message += `- ${item.name} (x${item.quantity}): $${itemTotal.toFixed(2)}\n`;
+    });
+
+    message += `\n*TOTAL: $${total.toFixed(2)}*`;
+    message += "\n\n¿Podrían indicarme los pasos para el pago y envío?";
+
+    const whatsappUrl = `https://wa.me/593978997619?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
+
+// Initialization and Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initial Render
+    renderProducts('all');
+    setupMobileMenu();
+    updateCartCount(); // Initialize count
+
+    // 2. Wire up Cart Icon
+    const cartIcon = document.querySelector('.cart-icon');
+    if (cartIcon) {
+        cartIcon.addEventListener('click', (e) => {
+            e.preventDefault();
+            openCartModal();
+        });
+    }
+
+    // 3. Wire up "Add to Cart" button in Product Modal
+    const addToCartBtn = document.getElementById('modal-add-to-cart');
+    if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', () => {
+            if (currentProductId) {
+                addToCart(currentProductId);
+            } else {
+                console.error("No product selected to add to cart");
+            }
+        });
+    }
+});
